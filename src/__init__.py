@@ -1,5 +1,7 @@
 from flask import Flask
 import os
+from src.auth import auth
+from src.bookmarks import bookmarks
 
 def create_app( test_config = None):
 
@@ -10,15 +12,14 @@ def create_app( test_config = None):
         app.config.from_mapping(
             SECRET_KEY = os.environ.get("SECRET_KEY"),
         )
-    else:
+    else: 
         app.config.from_mapping(test_config)
-
-    @app.get("/")
-    def index():
-        return "Bookmark API Index"
-
-    @app.get("/hello")
-    def say_hello():
-        return{"message": "hello world"}
     
+    @app.get("/")
+    def  index():
+        return {"hola" : "Hola mundo"}
+
+    app.register_blueprint(auth)
+    app.register_blueprint(bookmarks)
+
     return app
